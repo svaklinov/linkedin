@@ -1,0 +1,12 @@
+# Ignore files which won`t to be in container
+
+README.md
+Dockerfile
+.dockerignore
+
+
+# Ignore common files
+.git
+.vscode
+.idea
+*.log
