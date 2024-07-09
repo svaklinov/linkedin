@@ -32,15 +32,14 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
 
-    - name: Run container for tests
+    - name: Run container for test
       run: |
         docker run -d --name linkedin -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
         sleep 5
         docker ps
-        curl -f http://localhost:8000
-        # Add your test commands here, for example:
-        # docker exec linkedin curl -f http://localhost:8000
-        # docker exec linkedin pytest tests/
+        curl -f http://localhost:8000        
+        # docker exec linkedin curl -f http://localhost:8000 -f argument give option curl to fail if is not sussesful
+        
 
     - name: Cleanup
       run: docker rm -f linkedin
