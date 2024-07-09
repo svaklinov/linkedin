@@ -10,3 +10,4 @@ Dockerfile
 .vscode
 .idea
 *.log
+*.github/
