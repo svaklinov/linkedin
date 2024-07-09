@@ -35,9 +35,9 @@ jobs:
     - name: Run container for tests
       run: |
         docker run -d --name linkedin -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
-        sleep 10
+        sleep 5
         docker ps
-        curl -f http://localhost:8001
+        curl -f http://localhost:8000
         # Add your test commands here, for example:
         # docker exec linkedin curl -f http://localhost:8000
         # docker exec linkedin pytest tests/
