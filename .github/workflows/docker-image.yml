@@ -16,6 +16,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Snyk
+      run: npm install -g snyk
+
+    - name: Authenticate Snyk
+      run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+    - name: Run Snyk Test
+      run: snyk test
+
+    - name: Run Snyk Monitor
+      run: snyk monitor
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
