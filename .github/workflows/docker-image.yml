@@ -15,27 +15,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
     
     - name: List files for debugging
-      run: ls -al
-
-    - name: Install Snyk
-      run: npm install -g snyk
-
-    - name: Authenticate Snyk
-      run: snyk auth ${{ secrets.SNYK_TOKEN }}
-
-    # - name: Run Snyk Test
-    #   run: |
-    #     snyk test --file=./requirements.txt
-
-    - name: Run Snyk Monitor
-      run: snyk monitor
+      run: ls -al    
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -64,3 +46,15 @@ jobs:
 
     - name: Cleanup
       run: docker rm -f linkedin
+
+    - name: Install Snyk
+      run: npm install -g snyk
+
+    - name: Authenticate Snyk
+      run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+    - name: Test Docker image with Snyk
+      run: snyk container test ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
+
+    - name: Monitor Docker image with Snyk
+      run: snyk container monitor ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
