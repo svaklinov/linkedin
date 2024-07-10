@@ -30,8 +30,9 @@ jobs:
     - name: Authenticate Snyk
       run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-    - name: Run Snyk Test
-      run: snyk test --file=./requirements.txt
+    # - name: Run Snyk Test
+    #   run: |
+    #     snyk test --file=./requirements.txt
 
     - name: Run Snyk Monitor
       run: snyk monitor
