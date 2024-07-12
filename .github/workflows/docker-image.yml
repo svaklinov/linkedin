@@ -44,7 +44,7 @@ jobs:
       run: |
         docker rm -f linkedin
     
-    - name: Debugging
+    - name: Debugging info
       run: docker images
 
     - name: Install Snyk

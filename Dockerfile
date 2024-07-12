@@ -12,4 +12,4 @@ RUN python3 -m venv /venv && \
 
 EXPOSE 8000
 
-CMD ["python3", "./scrypt.py"]
+CMD ["python3", "./script.py"]
