@@ -11,3 +11,4 @@ Dockerfile
 .idea
 *.log
 *.github/
+Diagram.html
