@@ -73,18 +73,7 @@ jobs:
       with:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
-
-    # - name: Install Node.js
-    #   uses: actions/setup-node@v3
-    #   with:
-    #     node-version: '14'......
-
-    # - name: Install dependencies
-    #   run: npm install
-
-    # - name: Build project
-    #   run: npm run build
-
+    
     - name: Run SonarCloud Scan
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKER }}
