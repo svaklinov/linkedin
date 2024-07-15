@@ -82,6 +82,18 @@ jobs:
     - name: Monitor Docker image with Snyk
       run: snyk container monitor ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
     
+    #Untested code
+    - name: Deploy to remote server
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        script: |          
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
+          docker rm -f linkedin || true
+          docker run -d --name linkedin -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
+    
     # - name: Checkout repository
     #   uses: actions/checkout@v3
 

@@ -12,3 +12,4 @@ Dockerfile
 *.log
 *.github/
 Diagram.html
+*.tf
