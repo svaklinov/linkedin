@@ -14,7 +14,7 @@
 *.wsf
 
 ### Terraform ###
-# Local .terraform directories
+# Local .terraform directories...
 **/.terraform/*
 
 # .tfstate files
