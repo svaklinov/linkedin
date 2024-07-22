@@ -84,10 +84,10 @@ jobs:
 
     #################################################################################
     - name: Connect to EC2 and Deploy
-      uses: appleboy/ssh-action@v0.1.4
+      uses: appleboy/ssh-action@v1.0.3
       with:
-        host: 3.67.136.167
-        username: ubuntu
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.REMOTE_SSH_KEY }}
         script: |          
           cd ~
