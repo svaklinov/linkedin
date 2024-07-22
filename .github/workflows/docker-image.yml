@@ -81,6 +81,18 @@ jobs:
 
     - name: Monitor Docker image with Snyk
       run: snyk container monitor ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
+
+    #################################################################################
+    - name: Connect to EC2 and Deploy
+      uses: appleboy/ssh-action@v0.1.4
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        script: |          
+          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
+          docker run -d --name linkedin -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
     
     # - name: Checkout repository
     #   uses: actions/checkout@v3
