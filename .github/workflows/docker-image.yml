@@ -81,7 +81,7 @@ jobs:
 
     - name: Monitor Docker image with Snyk
       run: snyk container monitor ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
-    ################################################################################
+    #################################################################################
     - name: Connect to EC2 and Deploy
       uses: appleboy/ssh-action@v0.1.4
       with:
