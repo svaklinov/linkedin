@@ -57,10 +57,10 @@ jobs:
 
     - name: Run container for test
       run: |
-        docker run -d --name linkedin -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
+        docker run -d --name linkedin -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
         sleep 5
         docker ps
-        curl -f http://localhost:8000        
+        curl -f http://localhost:80        
         # docker exec linkedin curl -f http://localhost:8000 -f argument give option curl to fail if is not sussesful        
 
     - name: Cleanup
@@ -82,47 +82,13 @@ jobs:
     - name: Monitor Docker image with Snyk
       run: snyk container monitor ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
     #################################################################################
-    - name: Connect to EC2 and Deploy
-      uses: appleboy/ssh-action@v0.1.4
+    - name: Connect to EC2 and Deploy image
+      uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.REMOTE_SSH_KEY }}
-        script: |
-          ssh -i ${{ secrets.REMOTE_SSH_KEY }} ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}
+        script: |          
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
-          docker run -d --name linkedin -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
-
-    
-    # - name: Checkout repository
-    #   uses: actions/checkout@v3
-
-
-    # - name: Install Node.js
-    #   uses: actions/setup-node@v3
-
-    # - name: Set up JDK 17
-    #   uses: actions/setup-java@v3
-
-    #   with:
-    #     java-version: '17'
-    #     distribution: 'temurin'
-
-    # - name: Cache SonarCloud packages
-    #   uses: actions/cache@v3
-    #   with:
-    #     path: ~/.sonar/cache
-    #     key: ${{ runner.os }}-sonar
-    
-    # - name: Run SonarCloud Scan
-    #   env:
-    #     SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKER }}
-    #   run: |
-    #     npx sonar-scanner \
-    #       -Dsonar.projectKey=svaklinov_linkedin \
-    #       -Dsonar.organization=svaklinov \
-    #       -Dsonar.sources=. \
-    #       -Dsonar.host.url=https://sonarcloud.io \
-    #       -Dsonar.login=${{ secrets.SONAR_CLOUD_TOKER }}
-    #
+          docker run -d --name linkedin -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
