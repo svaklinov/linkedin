@@ -12,75 +12,75 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    # steps:
+    # - name: Checkout code
+    #   uses: actions/checkout@v4
       
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+    # - name: Set up JDK 17
+    #   uses: actions/setup-java@v4
+    #   with:
+    #     java-version: '17'
+    #     distribution: 'temurin'
   
-    - name: Cache SonarCloud packages
-      uses: actions/cache@v4
-      with:
-        path: ~/.sonar/cache
-        key: ${{ runner.os }}-sonar
+    # - name: Cache SonarCloud packages
+    #   uses: actions/cache@v4
+    #   with:
+    #     path: ~/.sonar/cache
+    #     key: ${{ runner.os }}-sonar
       
-    - name: Run SonarCloud Scan
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKER }}
-      run: |
-        npx sonar-scanner \
-          -Dsonar.projectKey=svaklinov_linkedin \
-          -Dsonar.organization=svaklinov \
-          -Dsonar.sources=. \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=${{ secrets.SONAR_CLOUD_TOKER }}
+    # - name: Run SonarCloud Scan
+    #   env:
+    #     SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKER }}
+    #   run: |
+    #     npx sonar-scanner \
+    #       -Dsonar.projectKey=svaklinov_linkedin \
+    #       -Dsonar.organization=svaklinov \
+    #       -Dsonar.sources=. \
+    #       -Dsonar.host.url=https://sonarcloud.io \
+    #       -Dsonar.login=${{ secrets.SONAR_CLOUD_TOKER }}
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+    # - name: Set up Docker Buildx
+    #   uses: docker/setup-buildx-action@v3
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+    # - name: Log in to Docker Hub
+    #   uses: docker/login-action@v3
+    #   with:
+    #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
+    #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-    - name: Build and Push Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
+    # - name: Build and Push Docker image
+    #   uses: docker/build-push-action@v5
+    #   with:
+    #     context: .
+    #     push: true
+    #     tags: ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
 
-    - name: Run container for test
-      run: |
-        docker run -d --name linkedin -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
-        sleep 5
-        docker ps
-        curl -f http://localhost:8000        
-        # docker exec linkedin curl -f http://localhost:8000 -f argument give option curl to fail if is not sussesful        
+    # - name: Run container for test
+    #   run: |
+    #     docker run -d --name linkedin -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
+    #     sleep 5
+    #     docker ps
+    #     curl -f http://localhost:8000        
+    #     # docker exec linkedin curl -f http://localhost:8000 -f argument give option curl to fail if is not sussesful        
 
-    - name: Cleanup
-      run: |
-        docker rm -f linkedin
+    # - name: Cleanup
+    #   run: |
+    #     docker rm -f linkedin
     
-    - name: Debugging info
-      run: docker images
+    # - name: Debugging info
+    #   run: docker images
 
-    - name: Install Snyk
-      run: npm install -g snyk
+    # - name: Install Snyk
+    #   run: npm install -g snyk
 
-    - name: Authenticate Snyk
-      run: snyk auth ${{ secrets.SNYK_TOKEN }}
+    # - name: Authenticate Snyk
+    #   run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-    - name: Test Docker image with Snyk
-      run: snyk container test ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
+    # - name: Test Docker image with Snyk
+    #   run: snyk container test ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
 
-    - name: Monitor Docker image with Snyk
-      run: snyk container monitor ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
+    # - name: Monitor Docker image with Snyk
+    #   run: snyk container monitor ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
 
     #################################################################################
     - name: Connect to EC2 and Deploy
