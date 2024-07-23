@@ -9,3 +9,8 @@ variable "vpc_name" {
 variable "ami" {
   default = ""
 }
+
+variable "vm_name" {
+  default = ""
+  type    = string
+}
