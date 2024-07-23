@@ -15,37 +15,6 @@ module "vpc" {
   map_public_ip_on_launch = true
 }
 
-# ## security group for vm
-# resource "aws_security_group_rule" "default_allow_ssh" {
-#   type        = "ingress"
-#   from_port   = 22
-#   to_port     = 22
-#   protocol    = "tcp"
-#   cidr_blocks = ["0.0.0.0/0"]
-
-#   security_group_id = module.vpc.default_security_group_id
-# }
-
-
-# ## security group for vm
-# resource "aws_security_group_rule" "default_allow_http" {
-#   type        = "ingress"
-#   from_port   = 80
-#   to_port     = 80
-#   protocol    = "tcp"
-#   cidr_blocks = ["0.0.0.0/0"]
-
-#   security_group_id = module.vpc.default_security_group_id
-# }
-
-# resource "aws_security_group_rule" "allow_all_egress" {
-#   type              = "egress"
-#   to_port           = 0
-#   protocol          = "-1"
-#   from_port         = 0
-#   cidr_blocks       = ["0.0.0.0/0"]
-#   security_group_id = module.vpc.default_security_group_id
-# }
 
 resource "aws_security_group" "http_access" {
   name        = "http_access"
