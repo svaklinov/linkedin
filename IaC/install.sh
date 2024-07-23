@@ -17,5 +17,3 @@ sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
 
 sudo usermod -aG docker ubuntu
-
-sudo docker run -d -p 80:80 nginx
