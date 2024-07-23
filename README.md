@@ -6,4 +6,4 @@
 
 3. Integragtion with Snyk
 
-4. Integrated with SonarCloud
+4. Integrated with SonarCloud.
