@@ -85,6 +85,8 @@ jobs:
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.REMOTE_SSH_KEY }}
         script: |          
+          docker stop $(docker ps -q) 
+          docker rm $(docker ps -a -q)
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
           docker run -d --name linkedin -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/linkedin:latest
